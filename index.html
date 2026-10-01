@@ -20,21 +20,26 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&amp;family=Secular+One&amp;display=swap">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 <link rel="stylesheet" href="css/nocturne.css?v=1">
-<link rel="stylesheet" href="css/site.css?v=4">
+<link rel="stylesheet" href="css/site.css?v=6">
 </head>
 <body>
 <div id="top" class="page">
 
 <a class="skip-link" href="#main">דילוג לתוכן</a>
-<nav class="nav" aria-label="ניווט ראשי" style="position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); background: color-mix(in srgb, var(--color-bg) 82%, transparent); padding-inline: clamp(20px, 5vw, 72px); display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
-  <a href="#top" class="lighten" style="display: flex;"><img src="assets/logo.png" alt="חכמת ההתנהגות" style="height: 56px; width: auto; display: block;"></a>
-  <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-inline-start: auto;">
-    <a href="#method">השיטה</a>
-    <a href="#team">הצוות</a>
-    <a href="#steps">הצעדים הראשונים</a>
-    <a href="#location">מיקום</a>
+<nav class="nav site-nav" aria-label="ניווט ראשי">
+  <a href="#top" class="lighten site-logo"><img src="assets/logo.png" alt="חכמת ההתנהגות"></a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="פתיחת תפריט">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-menu" id="nav-menu">
+    <div class="nav-links">
+      <a href="#method">השיטה</a>
+      <a href="#team">הצוות</a>
+      <a href="#steps">הצעדים הראשונים</a>
+      <a href="#location">מיקום</a>
+    </div>
+    <a href="#cta" class="btn btn-primary">פגישת אבחון במתנה</a>
   </div>
-  <a href="#cta" class="btn btn-primary">פגישת אבחון במתנה</a>
 </nav>
 
 <div id="main" class="wrap">
@@ -445,6 +450,6 @@
 
 <script>window.COOKIE_TEXT = 'האתר משתמש בעוגיות ובאחסון מקומי הכרחיים לתפעולו, ובאישורך גם בשירותי צד שלישי כמו מפת Google.';</script>
 <script src="js/cookies.js?v=1" defer></script>
-<script src="js/main.js?v=2" defer></script>
+<script src="js/main.js?v=3" defer></script>
 </body>
 </html>

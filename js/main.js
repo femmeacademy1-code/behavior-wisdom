@@ -60,3 +60,19 @@ document.querySelectorAll('.yt-embed').forEach(function (box) {
     btn.replaceWith(f);
   });
 });
+
+/* Mobile menu: toggle open/closed, close after choosing a link or pressing Escape. */
+(function () {
+  var nav = document.querySelector('.site-nav');
+  var btn = nav && nav.querySelector('.nav-toggle');
+  if (!btn) return;
+  var set = function (open) {
+    nav.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'סגירת תפריט' : 'פתיחת תפריט');
+  };
+  btn.addEventListener('click', function () { set(!nav.classList.contains('is-open')); });
+  nav.querySelectorAll('.nav-menu a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  document.addEventListener('click', function (e) { if (!nav.contains(e.target)) set(false); });
+})();
