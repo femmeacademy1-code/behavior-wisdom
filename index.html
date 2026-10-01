@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wisdom of Behavior</title>
+<meta name="description" content="Practical wisdom for understanding and shaping human behavior — in yourself and in others.">
+<style>
+  :root { --bg:#faf8f4; --fg:#22211f; --muted:#6b675f; --accent:#2f6f5e; --card:#fff; --line:#e6e1d6; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#161715; --fg:#eeeae0; --muted:#a29d90; --accent:#6fc2a9; --card:#1f201d; --line:#333530; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:18px/1.6 Georgia, "Times New Roman", serif; }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  header.hero { text-align:center; padding:96px 0 72px; }
+  h1 { font-size:clamp(2.4rem,6vw,4rem); line-height:1.1; margin:0 0 16px; }
+  .lead { font-size:1.25rem; color:var(--muted); max-width:640px; margin:0 auto 32px; }
+  .btn { display:inline-block; background:var(--accent); color:#fff; padding:14px 28px; border-radius:8px; text-decoration:none; font:600 1rem system-ui, sans-serif; }
+  .btn:hover { opacity:.9; }
+  h2 { text-align:center; font-size:2rem; margin:0 0 32px; }
+  section { padding:56px 0; border-top:1px solid var(--line); }
+  .grid { display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px; }
+  .card h3 { margin:0 0 8px; color:var(--accent); }
+  .card p { margin:0; color:var(--muted); }
+  blockquote { margin:0 auto; max-width:640px; text-align:center; font-size:1.4rem; font-style:italic; }
+  blockquote cite { display:block; margin-top:12px; font:0.95rem system-ui, sans-serif; color:var(--muted); }
+  form { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  input[type=email] { flex:1 1 240px; max-width:360px; padding:14px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--fg); font:1rem system-ui, sans-serif; }
+  button.btn { border:0; cursor:pointer; }
+  footer { text-align:center; padding:32px 0 48px; color:var(--muted); font:0.9rem system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>The Wisdom of Behavior</h1>
+    <p class="lead">Understand why people act the way they do — and learn to respond with clarity, patience, and purpose.</p>
+    <a class="btn" href="#join">Get the free guide</a>
+  </header>
+
+  <section id="principles">
+    <h2>Core principles</h2>
+    <div class="grid">
+      <div class="card"><h3>Observe first</h3><p>Behavior is information. Pause before judging and notice what is actually happening.</p></div>
+      <div class="card"><h3>Look for the need</h3><p>Every action serves a need — safety, belonging, respect, or control. Find it, and the action makes sense.</p></div>
+      <div class="card"><h3>Change the environment</h3><p>Small shifts in context shape habits more reliably than willpower alone.</p></div>
+      <div class="card"><h3>Lead by example</h3><p>People mirror what they see. Consistent conduct teaches more than any speech.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <blockquote>
+      “Between stimulus and response there is a space. In that space is our power to choose.”
+      <cite>— attributed to Viktor Frankl</cite>
+    </blockquote>
+  </section>
+
+  <section id="join">
+    <h2>Start learning</h2>
+    <p class="lead" style="text-align:center;margin-bottom:24px">Join the list for short, practical lessons on behavior, delivered weekly.</p>
+    <form onsubmit="event.preventDefault(); this.innerHTML='<p>Thank you! We will be in touch.</p>';">
+      <input type="email" placeholder="you@example.com" required aria-label="Email address">
+      <button class="btn" type="submit">Join</button>
+    </form>
+  </section>
+
+  <footer>&copy; 2026 Wisdom of Behavior</footer>
+</div>
+</body>
+</html>
