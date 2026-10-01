@@ -1,0 +1,91 @@
+/* חכמת ההתנהגות — brand layer over the Nocturne base (css/nocturne.css).
+   Colors come from the logo: red and blue boxing gloves on black. */
+
+:root {
+  --color-bg: #0d0d11;
+  --color-surface: #18181f;
+  --color-text: #ededf0;
+  --color-divider: rgba(237, 237, 240, 0.16);
+  --color-accent: #e23a40;
+  --color-accent-100: #fbe1e2;
+  --color-accent-200: #f5aeb0;
+  --color-accent-300: #f08a8d;
+  --color-accent-400: #e8585d;
+  --color-accent-500: #e23a40;
+  --color-accent-600: #b8282e;
+  --color-accent-700: #6e1a1e;
+  --color-accent-800: #431215;
+  --color-accent-900: #260c0e;
+  --color-accent-2: #3d7fe0;
+  --color-accent-2-200: #a9c6f2;
+  --color-accent-2-300: #7fa9ec;
+  --color-accent-2-700: #1c3a6e;
+  --color-section: #10214a;
+  --color-section-glow: #1d3c82;
+  --color-neutral-700: #30303a;
+  --font-heading: "Secular One", "Heebo", sans-serif;
+  --font-heading-weight: 400;
+  --font-body: "Heebo", system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 700px at 100% -120px, color-mix(in srgb, var(--color-accent-2-700) 70%, transparent), transparent 62%),
+    radial-gradient(900px 700px at 0% 120px, color-mix(in srgb, var(--color-accent-800) 80%, transparent), transparent 60%),
+    radial-gradient(1000px 800px at 50% 100%, color-mix(in srgb, var(--color-accent-900) 90%, transparent), transparent 60%),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: "Heebo", system-ui, sans-serif;
+  text-wrap: pretty;
+}
+a { color: var(--color-accent-300); text-decoration: none; }
+a:hover { color: var(--color-accent-200); }
+
+.page { font-family: "Heebo", system-ui, sans-serif; color: var(--color-text); min-height: 100vh; overflow-x: clip; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 72px); }
+section[id], div[id] { scroll-margin-top: 84px; }
+
+/* — signature treatments — */
+.heading { font-family: "Secular One", "Heebo", sans-serif; font-weight: 400; }
+.grad {
+  background: linear-gradient(90deg, var(--color-accent-400), var(--color-accent-2-300));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.grad-light { background-image: linear-gradient(90deg, var(--color-accent-200), var(--color-accent-2-200)); }
+.hl-red { color: var(--color-accent-400); font-weight: 700; }
+.hl-blue {
+  color: var(--color-accent-2-300); font-weight: 700;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20200%2014%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M3%208.5%20C%2030%204.5%2C%2060%2010.5%2C%2095%207%20S%20160%204%2C%20197%207.5%27%20fill%3D%27none%27%20stroke%3D%27%233d7fe0%27%20stroke-width%3D%275.5%27%20stroke-linecap%3D%27round%27%20opacity%3D%270.9%27%2F%3E%3Cpath%20d%3D%27M8%2011%20C%2050%208.5%2C%20110%2012%2C%20190%209.5%27%20fill%3D%27none%27%20stroke%3D%27%237fa9ec%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20opacity%3D%270.7%27%2F%3E%3C%2Fsvg%3E");
+  background-position: left bottom; background-size: 100% 0.42em; background-repeat: no-repeat;
+  padding-bottom: 0.18em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.kicker { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; letter-spacing: 0.02em; color: var(--color-accent-400); }
+.kicker-bar { width: 28px; height: 3px; border-radius: 2px; background: var(--color-accent); }
+.badge {
+  flex: none; border-radius: 12px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--color-accent-500), var(--color-accent-2-700));
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--color-accent) 70%, transparent);
+}
+.muted { color: color-mix(in srgb, var(--color-text) 78%, transparent); }
+.muted-2 { color: color-mix(in srgb, var(--color-text) 64%, transparent); }
+
+/* — floating CTA — */
+.sticky-cta {
+  position: fixed; bottom: 20px; left: 20px; z-index: 20;
+  background: var(--color-bg); box-shadow: var(--shadow-md);
+}
+
+/* — accessibility — */
+.skip-link {
+  position: absolute; top: 8px; inset-inline-start: 8px; z-index: 100;
+  padding: 10px 16px; background: var(--color-bg); color: var(--color-text);
+  border: 1px solid var(--color-accent); border-radius: 8px;
+  transform: translateY(-200%); transition: transform 0.2s;
+}
+.skip-link:focus { transform: none; }
+:focus-visible { outline: 2px solid var(--color-accent-2-300); outline-offset: 3px; }
