@@ -212,3 +212,20 @@ section[id], div[id] { scroll-margin-top: 84px; }
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
   .nav-menu, .nav-toggle span { transition: none; }
 }
+
+/* — opening letter: round emblem beside the text; small and tucked into the text on mobile — */
+.letter { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; padding: 120px 0 96px; }
+.letter-emblem {
+  margin: 0; aspect-ratio: 1 / 1; width: 220px; flex: none; border-radius: 50%;
+  box-shadow: 0 30px 80px -30px color-mix(in srgb, var(--color-accent-2) 60%, transparent);
+}
+.letter-text { font-size: 18px; line-height: 1.75; max-width: 44ch; flex: 1 1 360px; margin-inline: auto; }
+@media (max-width: 760px) {
+  .letter { display: block; padding: 40px 0 56px; }
+  .letter::after { content: ""; display: block; clear: both; }
+  .letter-emblem {
+    float: left; width: 96px; margin: 4px 0 8px 16px; shape-outside: circle(50%);
+    box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--color-accent-2) 70%, transparent);
+  }
+  .letter-text { max-width: none; font-size: 17px; }
+}
