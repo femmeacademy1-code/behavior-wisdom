@@ -89,3 +89,80 @@ section[id], div[id] { scroll-margin-top: 84px; }
 }
 .skip-link:focus { transform: none; }
 :focus-visible { outline: 2px solid var(--color-accent-2-300); outline-offset: 3px; }
+
+/* Legal / cookie tokens for this site */
+:root { --legal-line: var(--color-neutral-700); --legal-fill: color-mix(in srgb, var(--color-accent) 30%, transparent); --legal-panel: #18181f; --legal-panel-text: var(--color-text); }
+.legal h1, .legal h2 {
+  font-family: "Secular One", "Heebo", sans-serif; font-weight: 400;
+  background: linear-gradient(90deg, var(--color-accent-400), var(--color-accent-2-300));
+  -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content;
+}
+.legal p, .legal li { color: color-mix(in srgb, var(--color-text) 88%, transparent); }
+.legal-nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); background: color-mix(in srgb, var(--color-bg) 82%, transparent); padding-inline: clamp(20px, 5vw, 72px); display: flex; align-items: center; gap: 24px; }
+.legal-links a, .legal-links .link-btn { color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.legal-links a:hover, .legal-links .link-btn:hover { color: var(--color-accent-200); }
+.cookie-essential { border: 1px solid var(--color-neutral-700); color: var(--color-text); }
+.consent-placeholder {
+  position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 12px; padding: 24px; text-align: center;
+  background: var(--color-surface); color: color-mix(in srgb, var(--color-text) 78%, transparent); font-size: 15px;
+}
+.consent-placeholder p { margin: 0; max-width: 34ch; }
+
+/* ── Legal pages, footer links and cookie banner ─────────────────────── */
+.legal { max-width: 760px; margin: 0 auto; padding: 48px var(--legal-edge, clamp(20px, 5vw, 72px)) 64px; }
+.legal h1 { margin: 0 0 6px; font-size: clamp(32px, 6vw, 46px); line-height: 1.15; }
+.legal h2 { margin: 36px 0 10px; font-size: 24px; line-height: 1.3; }
+.legal p, .legal li { font-size: 16.5px; line-height: 1.75; }
+.legal p { margin: 10px 0 0; }
+.legal ul { margin: 10px 0 0; padding-inline-start: 22px; }
+.legal li + li { margin-top: 6px; }
+.legal-updated { opacity: 0.75; font-size: 14px !important; margin: 0 0 24px !important; }
+.legal-box { margin-top: 18px; padding: 16px 20px; border: 1px solid var(--legal-line); border-radius: 12px; }
+.legal-box p { margin: 0; }
+.legal-box ul { margin-top: 8px; }
+.fill { background: var(--legal-fill); padding: 0 5px; border-radius: 4px; }
+.legal-links { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; }
+.legal-footer { max-width: 760px; margin: 0 auto; padding: 24px var(--legal-edge, clamp(20px, 5vw, 72px)) 48px; border-top: 1px solid var(--legal-line); }
+.link-btn {
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit; color: inherit;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.skip-link {
+  position: absolute; top: 8px; inset-inline-start: 8px; z-index: 100;
+  padding: 10px 16px; background: var(--legal-panel); color: inherit;
+  border: 1px solid var(--legal-line); border-radius: 8px;
+  transform: translateY(-200%); transition: transform 0.2s;
+}
+.skip-link:focus { transform: none; }
+
+.cookie-banner {
+  position: fixed; z-index: 60; inset-inline: 12px; bottom: 12px;
+  max-width: 560px; margin-inline: auto;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 16px 18px; background: var(--legal-panel); color: var(--legal-panel-text, inherit);
+  border: 1px solid var(--legal-line); border-radius: 14px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+  font-size: 14.5px; line-height: 1.6;
+  opacity: 0; transform: translateY(20px); transition: opacity 0.4s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cookie-banner.is-open { opacity: 1; transform: none; }
+.cookie-banner[hidden] { display: none; }
+.cookie-banner p { margin: 0; }
+.cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cookie-actions .btn { flex: 1 1 140px; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) { .cookie-banner { transition: none; } }
+
+/* — podcast: YouTube loads only when the visitor presses play — */
+.yt-embed { position: relative; max-width: 900px; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-700), 0 30px 60px -30px color-mix(in srgb, var(--color-accent) 50%, transparent); }
+.yt-embed iframe, .yt-facade { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.yt-facade { padding: 0; cursor: pointer; background: #000; }
+.yt-facade img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.3s; }
+.yt-facade:hover img { opacity: 1; }
+.yt-play {
+  position: absolute; inset: 0; margin: auto; width: 76px; height: 76px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 36px; color: #fff;
+  background: linear-gradient(135deg, var(--color-accent-500), var(--color-accent-2-700));
+  box-shadow: 0 10px 30px -6px color-mix(in srgb, var(--color-accent) 80%, transparent);
+  transition: transform 0.3s;
+}
+.yt-facade:hover .yt-play { transform: scale(1.08); }

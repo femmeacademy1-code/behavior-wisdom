@@ -46,3 +46,17 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   els.forEach(function (el) { io.observe(el); });
 })();
+
+/* Podcast: swap the thumbnail for the YouTube player (privacy-enhanced mode) on click. */
+document.querySelectorAll('.yt-embed').forEach(function (box) {
+  var btn = box.querySelector('.yt-facade');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + box.getAttribute('data-yt') + '?autoplay=1&rel=0';
+    f.title = 'הפודקאסט של חכמת ההתנהגות';
+    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    f.allowFullscreen = true;
+    btn.replaceWith(f);
+  });
+});
