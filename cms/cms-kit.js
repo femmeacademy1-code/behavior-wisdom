@@ -45,7 +45,7 @@
   var editingEl = null;       // element currently being typed in (never re-applied)
   var applying = false;
   var palette = [];
-  var KIT_VERSION = 5;   // 2: formatting + structure edits · 3: copies of scroll-reveal elements stay visible · 4: add elements · 5: boxes, corner radius, borders, shadows, image shapes + crop
+  var KIT_VERSION = 8;   // 2: formatting + structure edits · 3: copies of scroll-reveal elements stay visible · 4: add elements · 5: boxes, corner radius, borders, shadows, image shapes + crop · 6: columns, gap, padding, size · 7: text spacing (line height, letter spacing, margin above) · 8: exact font sizes (desktop + separate phone size), font weight
   var STAMP = 'data-cms-p', CID = 'data-cms-id';   // original-path stamp / id of a duplicated block
   var stamped = false;
   var layoutDone = {};                              // op index -> applied
@@ -344,6 +344,25 @@
 
   /* ---------- applying edits ---------- */
   function setStyle(el, prop, val) { snapStyle(el, prop); el.style.setProperty(prop, val, 'important'); }
+  /* Font sizes: exact px on wide screens, and a separate size (or an automatic gentle shrink) on phones.
+   * Rules live in one stylesheet keyed by a data attribute, so a media query can be used. */
+  var szRules = [], szCount = 0, szEl = null;
+  function szFlush() {
+    if (!szEl || !szEl.parentNode) { szEl = document.createElement('style'); szEl.id = 'cms-kit-sizes'; (document.head || document.documentElement).appendChild(szEl); }
+    szEl.textContent = szRules.join('\n');
+  }
+  function sizeRules(el, spec) {
+    if (spec.fs == null && spec.fsm == null) return;
+    snapAttr(el, 'data-cms-sz');
+    var id = el.getAttribute('data-cms-sz');
+    if (!id) { id = String(++szCount); el.setAttribute('data-cms-sz', id); }
+    var sel = '[data-cms-sz="' + id + '"]';
+    if (spec.fs != null) szRules.push(sel + '{font-size:' + spec.fs + 'px!important}');
+    var m = null;
+    if (spec.fsm != null) m = spec.fsm + 'px';
+    else if (spec.fs != null && spec.fs > 18) m = 'clamp(' + Math.max(16, Math.round(spec.fs * 0.6)) + 'px,' + (spec.fs / 7.67).toFixed(3) + 'vw,' + spec.fs + 'px)';
+    if (m) szRules.push('@media (max-width:767px){' + sel + '{font-size:' + m + '!important}}');
+  }
   function applyEl(el, spec) {
     if (spec.t != null) { snapChildren(el); setText(el, spec.t); }
     if (spec.n) {
@@ -369,14 +388,18 @@
     if (spec.bgc) setStyle(el, 'background-color', spec.bgc);
     if (spec.font && loadFont(spec.font)) setStyle(el, 'font-family', '"' + spec.font.family + '", sans-serif');
     // Text formatting. Font size scales down with the viewport so big headings don't overflow on phones.
-    if (spec.fs) setStyle(el, 'font-size', 'clamp(' + Math.min(11, spec.fs) + 'px, ' + (spec.fs / 12).toFixed(3) + 'vw, ' + spec.fs + 'px)');
+    sizeRules(el, spec);
     if (spec.b != null) setStyle(el, 'font-weight', spec.b ? '700' : '400');
+    if (spec.fw != null) setStyle(el, 'font-weight', String(spec.fw));
     if (spec.i != null) setStyle(el, 'font-style', spec.i ? 'italic' : 'normal');
     if (spec.u != null || spec.st != null) {
       var deco = (spec.u ? 'underline ' : '') + (spec.st ? 'line-through' : '');
       setStyle(el, 'text-decoration', deco.trim() || 'none');
     }
     if (spec.al) setStyle(el, 'text-align', spec.al);
+    if (spec.lh != null) setStyle(el, 'line-height', String(spec.lh / 10));
+    if (spec.ls != null) setStyle(el, 'letter-spacing', spec.ls + 'px');
+    if (spec.mt != null) setStyle(el, 'margin-top', spec.mt + 'px');
     applyShape(el, spec);
   }
 
@@ -391,6 +414,13 @@
   var SHAPE_RADIUS = { rounded: '24px', blob: '63% 37% 54% 46% / 55% 48% 52% 45%' };
   function applyShape(el, spec) {
     var isImg = el.tagName === 'IMG';
+    // size and spacing
+    if (spec.cols != null) { snapAttr(el, 'data-cms-cols'); el.setAttribute('data-cms-cols', String(spec.cols)); ensureColsStyle(); }
+    if (spec.gap != null) setStyle(el, 'gap', spec.gap + 'px');
+    if (spec.pad != null) setStyle(el, 'padding', spec.pad + 'px');
+    if (spec.mb != null) setStyle(el, 'margin-bottom', spec.mb + 'px');
+    if (spec.w != null) { setStyle(el, 'box-sizing', 'border-box'); setStyle(el, 'width', spec.w + '%'); if (spec.w < 100) { setStyle(el, 'margin-left', 'auto'); setStyle(el, 'margin-right', 'auto'); } }
+    if (spec.mh != null) setStyle(el, 'min-height', spec.mh + 'px');
     if (spec.rad != null) { setStyle(el, 'border-radius', spec.rad + 'px'); if (!isImg && spec.rad > 0) setStyle(el, 'overflow', 'hidden'); }
     if (spec.sh != null) setStyle(el, 'box-shadow', SHADOWS[spec.sh] || 'none');
     if (spec.bw != null) setStyle(el, 'border', spec.bw ? spec.bw + 'px solid ' + (spec.bc || '#47454D') : 'none');
@@ -458,6 +488,25 @@
     if (text != null) e.textContent = text;
     return e;
   }
+  // A content box: copies the look of an existing card (or a clean default) and holds a heading and a paragraph.
+  function makeBox(model, standalone) {
+    var box = make('div', model ? cleanClass(model.className) : '');
+    if (!model) box.setAttribute('style', 'padding:24px;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:16px' + (standalone ? ';margin:16px 0' : ''));
+    var hm = model && model.querySelector('h2, h3, h4'), pm = model && model.querySelector('p');
+    box.appendChild(make(hm ? hm.tagName.toLowerCase() : 'h3', hm ? cleanClass(hm.className) : '', 'כותרת הקופסה'));
+    box.appendChild(make('p', pm ? cleanClass(pm.className) : '', 'כאן כותבים את תוכן הקופסה.'));
+    return box;
+  }
+  // Columns: attribute-driven rules, so the page collapses to one column on phones (inline styles cannot do media queries).
+  function ensureColsStyle() {
+    if (document.getElementById('cms-cols')) return;
+    var st = document.createElement('style'); st.id = 'cms-cols';
+    st.textContent = '[data-cms-cols]{display:grid !important;gap:24px !important;align-items:stretch}' +
+      '[data-cms-cols="1"]{grid-template-columns:minmax(0,1fr) !important}[data-cms-cols="2"]{grid-template-columns:repeat(2,minmax(0,1fr)) !important}' +
+      '[data-cms-cols="3"]{grid-template-columns:repeat(3,minmax(0,1fr)) !important}[data-cms-cols="4"]{grid-template-columns:repeat(4,minmax(0,1fr)) !important}' +
+      '@media (max-width:720px){[data-cms-cols]{grid-template-columns:minmax(0,1fr) !important}}';
+    document.head.appendChild(st);
+  }
   function buildAdded(op, after) {
     var t = op.type, target = blockOf(after), el, m;
     if (t === 'button' || t === 'file') {
@@ -479,12 +528,15 @@
       el.setAttribute('alt', '');
       el.setAttribute('style', 'display:block;max-width:100%;height:auto;margin:16px auto');
     } else if (t === 'box') {
+      el = makeBox(findCard(after), true);
+    } else if (t === 'cols' && op.p && op.p.n >= 2 && op.p.n <= 4) {
+      // a row of N equal boxes (stacks on narrow screens); the row itself is a grid whose columns and gap can be changed later
+      el = make('div', '');
+      el.setAttribute('data-cms-cols', String(op.p.n));
+      el.setAttribute('style', 'margin:16px 0');
+      ensureColsStyle();
       m = findCard(after);
-      el = make('div', m ? cleanClass(m.className) : '');
-      if (!m) el.setAttribute('style', 'padding:24px;margin:16px 0;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:16px');
-      var hm = m && m.querySelector('h2, h3, h4'), pm = m && m.querySelector('p');
-      el.appendChild(make(hm ? hm.tagName.toLowerCase() : 'h3', hm ? cleanClass(hm.className) : '', 'כותרת הקופסה'));
-      el.appendChild(make('p', pm ? cleanClass(pm.className) : '', 'כאן כותבים את תוכן הקופסה.'));
+      for (var ci = 0; ci < op.p.n; ci++) el.appendChild(makeBox(m, false));
     } else if (t === 'divider') {
       m = findModel('hr', after);
       el = make('hr', m ? cleanClass(m.className) : '');
@@ -560,6 +612,7 @@
       var pg = (edits.pages || {})[pageKey] || {};
       applyLayout(pg.layout || []);
       var els = pg.els || {};
+      szRules = [];
       Object.keys(els).forEach(function (p) {
         var el = resolve(p);
         if (el && el !== editingEl) applyEl(el, els[p]);
@@ -567,6 +620,7 @@
       applyColors((edits.global || {}).colors);
       applyFonts((edits.global || {}).fonts);
     } finally {
+      szFlush();
       applying = false;
       if (observer) observe();
     }
@@ -662,6 +716,9 @@
       al: /^(left|right|center|justify)$/.test(cs.textAlign) ? cs.textAlign : 'right',
       canUp: !!visibleSibling(el, -1), canDown: !!visibleSibling(el, 1),
       clone: el.getAttribute(CID) || null, hidden: isHidden(el),
+      disp: cs.display, cols: +el.getAttribute('data-cms-cols') || 0, gap: Math.round(parseFloat(cs.columnGap)) || 0, pad: Math.round(parseFloat(cs.paddingTop)) || 0,
+      mb: Math.round(parseFloat(cs.marginBottom)) || 0, mh: Math.round(parseFloat(cs.minHeight)) || 0,
+      w: el.parentElement && el.parentElement.clientWidth ? Math.min(100, Math.round(el.offsetWidth / el.parentElement.clientWidth * 100)) : 100,
       rad: Math.round(parseFloat(cs.borderTopLeftRadius)) || 0, bw: Math.round(parseFloat(cs.borderTopWidth)) || 0, bc: cssColorToHex(cs.borderTopColor),
       added: el.getAttribute('data-cms-add') || null, vid: el.getAttribute('data-cms-vid') || null
     };
