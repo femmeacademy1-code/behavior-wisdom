@@ -3,7 +3,11 @@
   "global": {},
   "pages": {
     "index.html": {
-      "els": {},
+      "els": {
+        "@2q2fs>h2:nth-of-type(1)": {
+          "t": "הורים מספרים"
+        }
+      },
       "layout": [
         {
           "op": "add",
