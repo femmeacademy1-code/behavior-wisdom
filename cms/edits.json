@@ -1,5 +1,21 @@
 {
   "v": 1,
   "global": {},
-  "pages": {}
+  "pages": {
+    "index.html": {
+      "els": {},
+      "layout": [
+        {
+          "op": "add",
+          "after": "#top>div:nth-of-type(2)>section:nth-of-type(12)",
+          "id": "2q2fs",
+          "type": "html",
+          "p": {
+            "html": "<section style=\"padding:96px 0\"><span class=\"kicker\" style=\"margin-bottom:16px\"><span class=\"kicker-bar\"></span>המלצות</span><h2 class=\"grad heading\" style=\"font-size:clamp(28px, 3.2vw, 40px);line-height:1.25;margin:0 0 40px\" data-cms-todo>הורים מספרים בווצאפ</h2><div style=\"display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));gap:16px\"><figure class=\"card elev-sm\" style=\"margin:0;padding:20px;display:flex;flex-direction:column;gap:12px;min-height:280px;align-items:center;justify-content:center;text-align:center\"><p class=\"muted\" style=\"margin:0;font-size:16px;line-height:1.6\" data-cms-todo>כאן יופיע צילום מסך של המלצה מהווצאפ</p><figcaption class=\"muted\" style=\"font-size:14px\" data-cms-todo>שם ההורה</figcaption></figure><figure class=\"card elev-sm\" style=\"margin:0;padding:20px;display:flex;flex-direction:column;gap:12px;min-height:280px;align-items:center;justify-content:center;text-align:center\"><p class=\"muted\" style=\"margin:0;font-size:16px;line-height:1.6\" data-cms-todo>כאן יופיע צילום מסך של המלצה מהווצאפ</p><figcaption class=\"muted\" style=\"font-size:14px\" data-cms-todo>שם ההורה</figcaption></figure><figure class=\"card elev-sm\" style=\"margin:0;padding:20px;display:flex;flex-direction:column;gap:12px;min-height:280px;align-items:center;justify-content:center;text-align:center\"><p class=\"muted\" style=\"margin:0;font-size:16px;line-height:1.6\" data-cms-todo>כאן יופיע צילום מסך של המלצה מהווצאפ</p><figcaption class=\"muted\" style=\"font-size:14px\" data-cms-todo>שם ההורה</figcaption></figure></div></section>",
+            "label": "המלצות מהווצאפ"
+          }
+        }
+      ]
+    }
+  }
 }
